@@ -1,4 +1,4 @@
-# Choosing best skiing hotel with AHP/EVM method 🏂🏼
+# Choosing the best skiing hotel with AHP/EVM method 🏂🏼
 
 This is a simple desktop python application for the Decision Algorithms 2022/23 course project. 
 
