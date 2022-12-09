@@ -3,6 +3,11 @@
 import tkinter as tk
 from tkinter import ttk
 
+def callback(window, row):
+    shoutout = ttk.Label(window, text='Button clicked!')
+    shoutout.grid(row=row, padx=20, pady=30, columnspan=2)
+    
+
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -20,9 +25,10 @@ class App(tk.Tk):
         self.columnconfigure(1, weight=1)
 
         # title
-        title = ttk.Label(self, text='This is the best place to find your perfect skiing hotel')
+        title = ttk.Label(self, text='This is the best place to find your perfect skiing hotel!\n just select your preferences and click the button')
         title.grid(row=0, padx=20, pady=30, columnspan=2)
 
+        # input
         criteria = ["price (£)", "distance from lift (m)", "altitude (m)", "total piste distance (km)", "total lifts", "total gondolas"]
         scales = [(), (), (), (), (), ()]
         
@@ -33,9 +39,9 @@ class App(tk.Tk):
             labels[i].grid(column=0, row=i+1, padx=10, pady=10)
             sliders[i].grid(column=1, row=i+1, padx=10, pady=10)
 
-        # # button
-        # btn = ttk.Button(self, text='Show')
-        # btn.grid(column=1, row=1, padx=10, pady=10)
+        # button
+        self.btn = ttk.Button(self, text='Calculate', command = lambda: callback(self, len(criteria)+2))
+        self.btn.grid(row= len(criteria)+1, padx=10, pady=10, columnspan=2)
 
         # def change_theme(self):
         #     self.style.theme_use(self.selected_theme.get())
