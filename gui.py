@@ -1,6 +1,8 @@
 # mosty jako rozszerzenie
 
 import tkinter as tk
+import load_data
+from load_data import Dataset
 from tkinter import ttk
 
 def callback(window, row):
@@ -12,6 +14,9 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
+        #dataset
+        mydata = Dataset('..\ski_hotels.csv')
+        
         # root window
         self.title('Skiing Hotels Decision Maker')
         self.geometry('800x600')
@@ -30,9 +35,10 @@ class App(tk.Tk):
 
         # inpu
         criteria = ["price (£)", "distance from lift (m)", "altitude (m)", "total piste distance (km)", "total lifts", "total gondolas"]
-        scales = [(), (), (), (), (), ()]
+        categories = ["price (£)", "distance_from_lift_(m)", "altitude (m)", "totalPiste (km)", "totalLifts", "gondolas"] 
+        scales = [mydata.get_minmax_value_from_category(cat) for cat in categories]
         
-        sliders = [ttk.Scale(self, from_=0, to=200, orient=tk.HORIZONTAL) for _ in criteria]
+        sliders = [ttk.Scale(self, from_=scales[i][0], to=scales[i][1], orient=tk.HORIZONTAL) for i in range(len(criteria))]
         labels = [ttk.Label(self, text=t) for t in criteria]
 
         for i in range(len(criteria)):
@@ -42,6 +48,7 @@ class App(tk.Tk):
         # button
         self.btn = ttk.Button(self, text='Calculate', command = lambda: callback(self, len(criteria)+2))
         self.btn.grid(row= len(criteria)+1, padx=10, pady=10, columnspan=2)
+        
 
         # def change_theme(self):
         #     self.style.theme_use(self.selected_theme.get())
