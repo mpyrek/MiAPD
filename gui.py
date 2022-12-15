@@ -28,7 +28,7 @@ class App(tk.Tk):
         title = ttk.Label(self, text='This is the best place to find your perfect skiing hotel!\n just select your preferences and click the button')
         title.grid(row=0, padx=20, pady=30, columnspan=2)
 
-        # input
+        # inpu
         criteria = ["price (£)", "distance from lift (m)", "altitude (m)", "total piste distance (km)", "total lifts", "total gondolas"]
         scales = [(), (), (), (), (), ()]
         
