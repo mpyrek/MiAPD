@@ -5,15 +5,17 @@ import load_data
 from load_data import Dataset
 from tkinter import ttk
 
-def callback(window, row, sliders):
+def callback(window, row, sliders, priorities):
     for slider in sliders:
         if slider.get() == 0:
             shoutout = ttk.Label(window, text='Change all criteria!')
-            shoutout.grid(row=row, padx=20, pady=30, columnspan=2)
+            shoutout.grid(row=row, padx=20, pady=30, columnspan=3)
             return
-    
+
+    # do sth with priorities
+
     shoutout = ttk.Label(window, text='Change all criteria!')
-    shoutout.grid(row=row, padx=20, pady=30, columnspan=2)
+    shoutout.grid(row=row, padx=20, pady=30, columnspan=3)
     slider_changed(sliders)
    
     
@@ -28,9 +30,8 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        root = tk.Tk()
         #dataset
-        mydata = Dataset('..\ski_hotels.csv')
+        mydata = Dataset('ski_hotels.csv')
         
         
         # root window
@@ -47,7 +48,7 @@ class App(tk.Tk):
 
         # title
         title = ttk.Label(self, text='This is the best place to find your perfect skiing hotel!\n just select your preferences and click the button')
-        title.grid(row=0, padx=20, pady=30, columnspan=2)
+        title.grid(row=0, padx=20, pady=30, columnspan=3)
 
         # inpu
         criteria = ["price (£)", "distance from lift (m)", "altitude (m)", "total piste distance (km)", "total lifts", "total gondolas"]
@@ -57,13 +58,17 @@ class App(tk.Tk):
         sliders = [ttk.Scale(self, from_=scales[i][0], to=scales[i][1], orient=tk.HORIZONTAL, command = disp) for i in range(len(criteria))]
         labels = [ttk.Label(self, text=t) for t in criteria]
 
+
+        priorities = [ttk.Spinbox(self, from_=1, to=6, increment=1) for _ in criteria]
         for i in range(len(criteria)):
             labels[i].grid(column=0, row=i+1, padx=10, pady=10)
             sliders[i].grid(column=1, row=i+1, padx=10, pady=10)
+            priorities[i].insert(0, "priority")
+            priorities[i].grid(column=2, row=i+1, padx=10, pady=10)
 
         # button
-        self.btn = ttk.Button(self, text='Calculate', command = lambda: callback(self, len(criteria)+2, sliders))
-        self.btn.grid(row= len(criteria)+1, padx=10, pady=10, columnspan=2)
+        self.btn = ttk.Button(self, text='Calculate', command = lambda: callback(self, len(criteria)+2, sliders, priorities))
+        self.btn.grid(row= len(criteria)+1, padx=10, pady=10, columnspan=3)
         
 
         # def change_theme(self):
