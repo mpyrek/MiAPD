@@ -13,7 +13,6 @@ def callback(window, row, sliders, priorities):
             return
 
     # do sth with priorities
-
     shoutout = ttk.Label(window, text='Change all criteria!')
     shoutout.grid(row=row, padx=20, pady=30, columnspan=3)
     slider_changed(sliders)
@@ -32,7 +31,6 @@ class App(tk.Tk):
 
         #dataset
         mydata = Dataset('ski_hotels.csv')
-        
         
         # root window
         self.title('Skiing Hotels Decision Maker')
@@ -55,9 +53,8 @@ class App(tk.Tk):
         categories = ["price (£)", "distance_from_lift_(m)", "altitude (m)", "totalPiste (km)", "totalLifts", "gondolas"] 
         scales = [mydata.get_minmax_value_from_category(cat) for cat in categories]
         print(scales)
-        sliders = [ttk.Scale(self, from_=scales[i][0], to=scales[i][1], orient=tk.HORIZONTAL, command = disp) for i in range(len(criteria))]
+        sliders = [tk.Scale(self, from_=scales[i][0], to=scales[i][1], orient=tk.HORIZONTAL, command = disp) for i in range(len(criteria))]
         labels = [ttk.Label(self, text=t) for t in criteria]
-
 
         priorities = [ttk.Spinbox(self, from_=1, to=6, increment=1) for _ in criteria]
         for i in range(len(criteria)):
