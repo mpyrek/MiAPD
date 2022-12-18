@@ -5,6 +5,8 @@ import load_data
 from load_data import Dataset
 from tkinter import ttk
 
+
+
 def callback(window, row, sliders, priorities):
     for slider in sliders:
         if slider.get() == 0:
@@ -16,7 +18,10 @@ def callback(window, row, sliders, priorities):
     shoutout = ttk.Label(window, text='Change all criteria!')
     shoutout.grid(row=row, padx=20, pady=30, columnspan=3)
     slider_changed(sliders)
-   
+    
+    data = [(sliders[i].get(), int(priorities[i].get())) for i in range(len(sliders))]
+    print(data)
+    
     
 def slider_changed(sliders):
     for slider in sliders:
