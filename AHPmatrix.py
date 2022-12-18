@@ -1,15 +1,20 @@
-from load_data import create_dicts_array
+from load_data import normalized_value
 
 class AHPmatrix:
-    #get normalized vectors 1-10
     def __init__(self, user_value_dict, priorities_dict, hotel_dict):
         self.matrix = [[0*len(user_value_dict)]*len(user_value_dict)]
         self.user_value_dict = user_value_dict
         self.priorities_dict = priorities_dict
         self.hotel_dict = hotel_dict
+        self.normalize_user_value()
         
         
-    def create_AHPmatrix(self, category_value):
+    def normalize_user_value(self):
+        for i in range(len(self.user_value_dict)):
+            category, value = self.user_value_dict[i]
+            self.user_value_dict[i] = self.normalized_value(category, value)
+        
+    def create_AHPmatrix(self):
         
         for i in range(len(self.user_value_dict)):
             _, user_value  =  self.user_value_dict[i]
