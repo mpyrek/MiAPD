@@ -5,23 +5,39 @@ import load_data
 from load_data import Dataset
 from tkinter import ttk
 
-def callback(window, row):
-    shoutout = ttk.Label(window, text='Button clicked!')
-    shoutout.grid(row=row, padx=20, pady=30, columnspan=2)
+def callback(window, row, sliders):
+    for slider in sliders:
+        if slider.get() == 0:
+            shoutout = ttk.Label(window, text='Change all criteria!')
+            shoutout.grid(row=row, padx=20, pady=30, columnspan=2)
+            return
     
+    shoutout = ttk.Label(window, text='Change all criteria!')
+    shoutout.grid(row=row, padx=20, pady=30, columnspan=2)
+    slider_changed(sliders)
+   
+    
+def slider_changed(sliders):
+    for slider in sliders:
+        print(slider.get())
+
+def disp(val):
+    print(val)
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
+        root = tk.Tk()
         #dataset
         mydata = Dataset('..\ski_hotels.csv')
+        
         
         # root window
         self.title('Skiing Hotels Decision Maker')
         self.geometry('800x600')
         self.iconbitmap("snowflake.ico")
-        #self.style = ttk.Style(self)
+        # self.style = ttk.Style(self)
 
         self.tk.call("source", "azure.tcl")
         self.tk.call("set_theme", "light")
@@ -37,8 +53,8 @@ class App(tk.Tk):
         criteria = ["price (£)", "distance from lift (m)", "altitude (m)", "total piste distance (km)", "total lifts", "total gondolas"]
         categories = ["price (£)", "distance_from_lift_(m)", "altitude (m)", "totalPiste (km)", "totalLifts", "gondolas"] 
         scales = [mydata.get_minmax_value_from_category(cat) for cat in categories]
-        
-        sliders = [ttk.Scale(self, from_=scales[i][0], to=scales[i][1], orient=tk.HORIZONTAL) for i in range(len(criteria))]
+        print(scales)
+        sliders = [ttk.Scale(self, from_=scales[i][0], to=scales[i][1], orient=tk.HORIZONTAL, command = disp) for i in range(len(criteria))]
         labels = [ttk.Label(self, text=t) for t in criteria]
 
         for i in range(len(criteria)):
@@ -46,7 +62,7 @@ class App(tk.Tk):
             sliders[i].grid(column=1, row=i+1, padx=10, pady=10)
 
         # button
-        self.btn = ttk.Button(self, text='Calculate', command = lambda: callback(self, len(criteria)+2))
+        self.btn = ttk.Button(self, text='Calculate', command = lambda: callback(self, len(criteria)+2, sliders))
         self.btn.grid(row= len(criteria)+1, padx=10, pady=10, columnspan=2)
         
 
