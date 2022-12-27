@@ -2,6 +2,7 @@ import random
 from load_data import Dataset
 from enum_1 import Criteria
 from numpy import matmul , argmax
+import pandas as pd
 
 def draw_three_hotels(data):
     three_hotels = []
@@ -16,6 +17,32 @@ def draw_three_hotels(data):
         three_hotels.append(data.get_dicts_array()[idx])
         
     return three_hotels
+
+
+def choose_3_hotels(data, criterion, min_lim, max_lim):
+    hotels = []
+    ids = []
+
+    filtered_data =  [d for d in data.rows if int(d[criterion]) >= min_lim and int(d[criterion]) <= max_lim]
+    ids = [int(f[0]) for f in filtered_data]
+    n = len(ids)
+
+    while n < 3:
+        idx = random.randint(1, 120)
+        if idx not in ids:
+            ids.append(idx)
+            n += 1
+    
+    if n > 3:
+        ids = random.sample(ids, 3)
+
+    # print(ids)
+   
+    for idx in ids:
+        hotels.append(data.get_dicts_array()[idx])
+        
+    return hotels
+
 
 
 def get_best(hotels):
@@ -91,7 +118,7 @@ def cratate_matrix_for_criteria(hotels_criterion_value):
 
 
 
-if __name__ == "__main__":
-    data = Dataset('..\ski_hotels.csv')
-    hotels = draw_three_hotels(data)
-    print(hotels[get_best(hotels)])
+# if __name__ == "__main__":
+#     data = Dataset('..\ski_hotels.csv')
+#     hotels = draw_three_hotels(data)
+#     print(hotels[get_best(hotels)])

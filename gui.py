@@ -5,18 +5,23 @@ from load_data import Dataset
 from tkinter import DoubleVar, ttk
 # from select_hotel import BestHotel
 from RangeSlider.RangeSlider import RangeSliderH 
+from AHP_matrix2 import *
     
-def button_callback(search_range):
+def button_callback(window, category, search_range):
     search_range = [int(var) for var in search_range]
     min_lim, max_lim = search_range
-    print(min_lim, max_lim)
+    # print(category, min_lim, max_lim)
+
+    # we are calculating!
+    hotels = choose_3_hotels(window.mydata, category, min_lim, max_lim)
+    print(hotels[get_best(hotels)])
     
 def menu_callback(window):
     # range slider
     min_, max_ = window.scale_dicts.get(window.menu_holder.get())
 
-    hVar1 = DoubleVar(value=min_)  #left handle variable
-    hVar2 = DoubleVar(value=max_)  #right handle variable
+    hVar1 = DoubleVar(value=min_) 
+    hVar2 = DoubleVar(value=max_) 
 
     rs1 = RangeSliderH( window , [hVar1, hVar2], padX=15, bar_radius = 7, min_val=min_, max_val=max_,
             bar_color_inner = '#acd4fc', line_s_color= "#007fff", bar_color_outer = '#007fff', line_color = '#acd4fc', 
@@ -24,7 +29,8 @@ def menu_callback(window):
     rs1.grid(row=2, padx=20, pady=20, columnspan=3)   
 
     # calculation button
-    btn = ttk.Button(window, text='Calculate', command = lambda : button_callback(rs1.getValues()))
+    # + 4 bo przesunięcie w Dataset
+    btn = ttk.Button(window, text='Calculate', command = lambda : button_callback(window, list(window.scale_dicts.keys()).index(window.menu_holder.get()) + 4, rs1.getValues()))
     btn.grid(row=6, padx=20, pady=10, columnspan=3)
     return
 
@@ -33,7 +39,7 @@ class App(tk.Tk):
         super().__init__()
 
         #dataset
-        mydata = Dataset('ski_hotels.csv')
+        self.mydata = Dataset('ski_hotels.csv')
         
         # root window
         self.title('Skiing Hotels Decision Maker')
@@ -51,8 +57,8 @@ class App(tk.Tk):
         title.grid(row=0, padx=20, pady=30, columnspan=3)
 
         criteria = ["price (£)", "distance from lift (m)", "altitude (m)", "total piste distance (km)", "total lifts", "total gondolas"]
-        categories = ["price (£)", "distance_from_lift_(m)", "altitude (m)", "totalPiste (km)", "totalLifts", "gondolas"] 
-        scales = [mydata.get_minmax_value_from_category(cat) for cat in categories]
+        self.categories = ["price (£)", "distance_from_lift_(m)", "altitude (m)", "totalPiste (km)", "totalLifts", "gondolas"] 
+        scales = [self.mydata.get_minmax_value_from_category(cat) for cat in self.categories]
         self.scale_dicts = dict(zip(criteria, scales))
         
         # option menu
@@ -66,3 +72,4 @@ class App(tk.Tk):
 if __name__ == "__main__":
     app = App()
     app.mainloop()
+    
