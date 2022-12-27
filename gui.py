@@ -2,34 +2,31 @@
 
 import tkinter as tk
 from load_data import Dataset
-from tkinter import ttk
+from tkinter import DoubleVar, ttk
 # from select_hotel import BestHotel
-
-
-def callback(window, row, sliders, priorities):
-    for slider in sliders:
-        if slider.get() == 0:
-            shoutout = ttk.Label(window, text='Change all criteria!')
-            shoutout.grid(row=row, padx=20, pady=30, columnspan=3)
-            return
-
-    # do sth with priorities
-    shoutout = ttk.Label(window, text='Change all criteria!')
-    shoutout.grid(row=row, padx=20, pady=30, columnspan=3)
-    slider_changed(sliders)
+from RangeSlider.RangeSlider import RangeSliderH 
     
-    data = [(sliders[i].get(), int(priorities[i].get())) for i in range(len(sliders))]
-    # BestHotel(data).create_results_hotels_array()
+def button_callback(search_range):
+    search_range = [int(var) for var in search_range]
+    min_lim, max_lim = search_range
+    print(min_lim, max_lim)
     
-    # print(data)
-    
-    
-def slider_changed(sliders):
-    for slider in sliders:
-        print(slider.get())
+def menu_callback(window):
+    # range slider
+    min_, max_ = window.scale_dicts.get(window.menu_holder.get())
 
-def disp(val):
-    print(val)
+    hVar1 = DoubleVar(value=min_)  #left handle variable
+    hVar2 = DoubleVar(value=max_)  #right handle variable
+
+    rs1 = RangeSliderH( window , [hVar1, hVar2], padX=15, bar_radius = 7, min_val=min_, max_val=max_,
+            bar_color_inner = '#acd4fc', line_s_color= "#007fff", bar_color_outer = '#007fff', line_color = '#acd4fc', 
+            bgColor = '#ffffff', digit_precision = '1.0f', valueSide = 'BOTTOM', font_family ='Yu Gothic UI', font_size = 10)
+    rs1.grid(row=2, padx=20, pady=20, columnspan=3)   
+
+    # calculation button
+    btn = ttk.Button(window, text='Calculate', command = lambda : button_callback(rs1.getValues()))
+    btn.grid(row=6, padx=20, pady=10, columnspan=3)
+    return
 
 class App(tk.Tk):
     def __init__(self):
@@ -42,8 +39,7 @@ class App(tk.Tk):
         self.title('Skiing Hotels Decision Maker')
         self.geometry('800x600')
         self.iconbitmap("snowflake.ico")
-        # self.style = ttk.Style(self)
-
+    
         self.tk.call("source", "azure.tcl")
         self.tk.call("set_theme", "light")
 
@@ -54,29 +50,18 @@ class App(tk.Tk):
         title = ttk.Label(self, text='This is the best place to find your perfect skiing hotel!\n just select your preferences and click the button')
         title.grid(row=0, padx=20, pady=30, columnspan=3)
 
-        # inpu
         criteria = ["price (£)", "distance from lift (m)", "altitude (m)", "total piste distance (km)", "total lifts", "total gondolas"]
         categories = ["price (£)", "distance_from_lift_(m)", "altitude (m)", "totalPiste (km)", "totalLifts", "gondolas"] 
         scales = [mydata.get_minmax_value_from_category(cat) for cat in categories]
-        print(scales)
-        sliders = [tk.Scale(self, from_=scales[i][0], to=scales[i][1], orient=tk.HORIZONTAL, command = disp) for i in range(len(criteria))]
-        labels = [ttk.Label(self, text=t) for t in criteria]
-
-        priorities = [ttk.Spinbox(self, from_=1, to=6, increment=1) for _ in criteria]
-        for i in range(len(criteria)):
-            labels[i].grid(column=0, row=i+1, padx=10, pady=10)
-            sliders[i].grid(column=1, row=i+1, padx=10, pady=10)
-            priorities[i].insert(0, "priority")
-            priorities[i].grid(column=2, row=i+1, padx=10, pady=10)
-
-        # button
-        self.btn = ttk.Button(self, text='Calculate', command = lambda: callback(self, len(criteria)+2, sliders, priorities))
-        self.btn.grid(row= len(criteria)+1, padx=10, pady=10, columnspan=3)
+        self.scale_dicts = dict(zip(criteria, scales))
         
+        # option menu
+        self.menu_holder = tk.StringVar(value=criteria[0])
+        self.menu_holder.trace("w", lambda x, y, z: menu_callback(self))
 
-        # def change_theme(self):
-        #     self.style.theme_use(self.selected_theme.get())
-
+        self.option_menu = ttk.OptionMenu(self, self.menu_holder, *criteria)
+        self.option_menu.grid(row=1, padx=20, pady=10, columnspan=3)
+        
 
 if __name__ == "__main__":
     app = App()
