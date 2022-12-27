@@ -1,10 +1,9 @@
 # mosty jako rozszerzenie
 
 import tkinter as tk
-import load_data
 from load_data import Dataset
 from tkinter import ttk
-
+# from select_hotel import BestHotel
 
 
 def callback(window, row, sliders, priorities):
@@ -20,7 +19,9 @@ def callback(window, row, sliders, priorities):
     slider_changed(sliders)
     
     data = [(sliders[i].get(), int(priorities[i].get())) for i in range(len(sliders))]
-    print(data)
+    # BestHotel(data).create_results_hotels_array()
+    
+    # print(data)
     
     
 def slider_changed(sliders):

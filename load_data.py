@@ -20,9 +20,9 @@ class Dataset():
         max_of_category = max([int(row[idx_of_category]) for row in self.rows if row[idx_of_category] != "unknown"])
         return (min_of_category, max_of_category)
     
-    def create_dicts_array(self):
+    def get_dicts_array(self):
         for criteria in Criteria:
-            self.normalize_category(criteria)
+            self.normalize_category(criteria.get_origin_name())
         
         dicts_array = []
         for row in self.rows:
@@ -43,7 +43,7 @@ class Dataset():
         idx = self.headers.index(category)
         
         for i in range(len(self.rows)):
-            if self.rows[i][idx] != 'unknown': self.rows[i][idx] = (int(self.rows[i][idx]) - min_category_value)/divider
+            if self.rows[i][idx] != 'unknown': self.rows[i][idx] = (int(self.rows[i][idx]) - min_category_value)/divider + 1
             else: self.rows[i][idx] = 4
             
     
@@ -58,5 +58,5 @@ class Dataset():
     
 # ok = Dataset('..\ski_hotels.csv')
 # print(ok.headers)
-# print(ok.create_dicts_array())
-# print(ok.normalized_category("febSnowHigh2020(cm)"))
+# print(ok.get_dicts_array()[3])
+# print(ok.normalize_category("febSnowHigh2020(cm)"))
