@@ -4,6 +4,18 @@ from enum_1 import Criteria
 from numpy import matmul , argmax
 import pandas as pd
 
+
+
+def change_importace(arr):
+    global arr_importance
+    arr_importance = arr
+    
+    
+def change_array(arr):
+    global arr_criteria
+    arr_criteria = arr
+
+
 def draw_three_hotels(data):
     three_hotels = []
     three_idx = []
@@ -44,18 +56,17 @@ def choose_3_hotels(data, criterion, min_lim, max_lim):
     return hotels
 
 
-
-def get_best(hotels):
-    six_matrix_criteria = create_matrix(hotels)
+def get_best():
     priority_vextors = []
     for  i in range(len(Criteria)):
-        priority_vextors.append(calculate_priority_vector(six_matrix_criteria[i]))
+        priority_vextors.append(calculate_priority_vector(arr_criteria[i]))
         
-    c12_matrix = calculate_priority_vector(crate_matrix_c12())
+    c12_matrix = calculate_priority_vector(arr_importance)
     matrix_all_weights = paste_all_weights_matrix(priority_vextors)
     res = matmul(matrix_all_weights , c12_matrix)
     
     return argmax(res)
+    
     
 def paste_all_weights_matrix(matrix_p):
     matrix_all_weights = []
@@ -67,25 +78,7 @@ def paste_all_weights_matrix(matrix_p):
     
     return matrix_all_weights
         
-    
-def crate_matrix_c12():
-    matrixc12 = []
-    
-    for i in range(6):
-        matrixc12.append([])
-        for j in range(6):
-            if i != j:
-                if i < j :
-                    matrixc12[i].append(random.randint(2,9))
-                else:
-                    matrixc12[i].append( 1 / matrixc12[j][i])
-            else:
-                matrixc12[i].append( 1)
-                
-    return matrixc12
             
-    
-
 def calculate_priority_vector(matrix):
     
     sum_matrix = sum(sum(matrix,[]))
@@ -93,32 +86,3 @@ def calculate_priority_vector(matrix):
     for row in matrix:
         vector.append(sum(row)/ sum_matrix)
     return vector
-
-def create_matrix(hotels):
-    all_matrix = []
-    for criterion in Criteria:
-        # print([hotel.get(criterion.get_origin_name()) for hotel in hotels])
-        all_matrix.append(cratate_matrix_for_criteria([hotel.get(criterion.get_origin_name()) for hotel in hotels]))
-    return all_matrix
-
-def cratate_matrix_for_criteria(hotels_criterion_value):
-    matrix = []
-    for i in range(len(hotels_criterion_value)):
-        matrix.append([])
-        for j in range(len(hotels_criterion_value)):
-            matrix[i].append([])
-            if i == j:
-                matrix[i][j] = 1
-            else:
-                matrix[i][j] = hotels_criterion_value[i]/hotels_criterion_value[j]
-    return matrix
-            
-    
-
-
-
-
-# if __name__ == "__main__":
-#     data = Dataset('..\ski_hotels.csv')
-#     hotels = draw_three_hotels(data)
-#     print(hotels[get_best(hotels)])

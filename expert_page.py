@@ -3,8 +3,6 @@ from load_data import Dataset
 from tkinter import ttk, IntVar 
 from AHP_matrix2 import *
 
-def get_expert_values(window):
-    return
 
 class ExpertApp(tk.Toplevel):
     def __init__(self, window):
@@ -43,8 +41,12 @@ class ExpertApp(tk.Toplevel):
         self.groups = [[IntVar(value=0) for _ in range(3)] for _ in range(len(criteria)) ]
 
         self.radio_buttons = [ [ [ ttk.Radiobutton(self.radio_frames[k], value=j, variable=self.groups[k][i]) for j in range(len(saaty_scale)) ] for i in range(3)] for k in range(len(criteria))]
-
-        # for every radio_frame
+        
+        self.button = ttk.Button(self, text="Done!",command = lambda : self.get_expert_values(criteria, self.groups )).grid(row=3,pady = 2, column = 1)
+        
+        self.results_arrays =  [ [[1 for i in range(3)] for i in range(3)] for i in range(len(criteria))]
+        
+         # for every radio_frame
         for i in range(len(criteria)):
 
             for j in range(5):
@@ -63,6 +65,39 @@ class ExpertApp(tk.Toplevel):
             for k in range(len(saaty_scale)): self.saaty_scales[i][k].grid(row=4, column=k+1)
 
             self.radio_frames[i].grid(row=i, column=0)
+            
+    def get_expert_values(self, criteria, groups):
+        
+        for k in range(len(criteria)):
+            for j in range(3):
+                res = self.scale_value(0)
+                if groups[k][j].get():
+                    res = self.scale_value(groups[k][j].get())
+                
+                match j:
+                    case 0:
+                        self.results_arrays[k][0][1] = res
+                        self.results_arrays[k][1][0] = 1/res
+                    case 1:
+                        self.results_arrays[k][1][2] = res
+                        self.results_arrays[k][2][1] = 1/res
+                    case 2:
+                        self.results_arrays[k][0][2] = res
+                        self.results_arrays[k][2][0] = 1/res
+        
+        change_array(self.results_arrays)                
+        self.destroy()
+        
+    def get_arrays(self):
+        return self.results_arrays
+                
+    def scale_value(self, arg):
+        if arg  <= 8:
+            return 1 / ( 9 - arg) 
+        else:
+            return arg - 8
+                
+            
 
         
 if __name__ == "__main__":
