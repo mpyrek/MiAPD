@@ -10,14 +10,13 @@ from expert_page import *
 from weights_page import *    
 
 # TODO
-# poprawić liste rozwijaną żeby było price
 # poprawić experta żeby wybierał nie to pierwsze kryterium
 # zbieranie danych od eksperta i zbeiranie wag
 
 def calculate(window, category, search_range):
     search_range = [int(var) for var in search_range]
     min_lim, max_lim = search_range
-    # print(category, min_lim, max_lim)
+    print(category, min_lim, max_lim)
 
     # we are calculating!
     hotels = choose_3_hotels(window.mydata, category, min_lim, max_lim)
@@ -87,7 +86,7 @@ class App(tk.Tk):
         self.menu_holder = tk.StringVar(value=criteria[0])
         self.menu_holder.trace("w", lambda x, y, z: menu_callback(self))
 
-        self.option_menu = ttk.OptionMenu(self, self.menu_holder, *criteria)
+        self.option_menu = ttk.OptionMenu(self, self.menu_holder, criteria[0], *criteria)
         self.option_menu.grid(row=1, padx=20, pady=10, columnspan=3)
         
 
