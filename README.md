@@ -39,6 +39,11 @@ selects 3 most favorable options. Then, the user clicks "Get the Expert's view" 
 
 ####
 Here is a simple video of the app in action:
+<p align="center">
+  <img src="./app.gif" alt="addStat" wifth = "900" height = "600"/>
+  </br>
+</p>
+
 
 ### Authors
 
