@@ -2,6 +2,7 @@ import numpy
 from numpy import recfromtxt
 import csv
 from enum_1 import Criteria
+from copy import deepcopy
 
 class Dataset():
     def __init__(self, datapath):
@@ -13,6 +14,8 @@ class Dataset():
             self.headers = next(my_data)
             for row in my_data:
                 self.rows.append(row)
+
+        self.chosen_hotels = deepcopy(self.rows)
         
     def get_minmax_value_from_category(self, category):
         idx_of_category = self.headers.index(category)
@@ -21,6 +24,7 @@ class Dataset():
         return (min_of_category, max_of_category)
     
     def get_dicts_array(self):
+
         for criteria in Criteria:
             self.normalize_category(criteria.get_origin_name())
         
@@ -53,10 +57,8 @@ class Dataset():
         
         return (value - min_category_value)/divider
 
-        
-        
+    def get_values(self, idx):
+        for hotel in self.chosen_hotels:
+            if hotel[0] == idx: return tuple(hotel[1:10])
+
     
-# ok = Dataset('..\ski_hotels.csv')
-# print(ok.headers)
-# print(ok.get_dicts_array()[3])
-# print(ok.normalize_category("febSnowHigh2020(cm)"))

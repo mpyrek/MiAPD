@@ -4,8 +4,6 @@ from enum_1 import Criteria
 from numpy import matmul , argmax
 import pandas as pd
 
-
-
 def change_importace(arr):
     global arr_importance
     arr_importance = arr
@@ -45,14 +43,14 @@ def choose_3_hotels(data, criterion, min_lim, max_lim):
             ids.append(idx)
             n += 1
     
-    if n > 3:
-        ids = random.sample(ids, 3)
+    if n > 3: ids = random.sample(ids, 3)
 
-    # print(ids)
-   
+    # prep = [d for d in data.rows if int(d[0]) in ids]
+    # data.chosen_hotels = deepcopy(prep)
+
     for idx in ids:
         hotels.append(data.get_dicts_array()[idx])
-        
+    
     return hotels
 
 

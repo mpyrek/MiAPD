@@ -12,7 +12,7 @@ class WeightApp(tk.Toplevel):
         
         # root window
         self.title('Skiing Hotels Decision Maker')
-        self.geometry('800x600')
+        self.geometry('1200x900')
         self.iconbitmap("snowflake.ico")
     
         self.columnconfigure(0, weight=1)
