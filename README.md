@@ -15,6 +15,16 @@ The user can compare the hotels in terms of:
 - total gondolas
 
 ### Installation & requirements
+To run the program the user should:
+
+- have a Python version: 3.10+ installed
+- install all the packages listed in the requirements.txt file by running the following command in the terminal
+    
+    `pip install -r requirements.txt`
+    
+- run the following command
+    
+    `python main.py`
 
 Libraries used:
 - numPy
