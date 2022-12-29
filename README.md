@@ -26,7 +26,7 @@ To run the program the user should:
     
     `python main.py`
 
-Libraries used:
+### Libraries used:
 - numPy
 - tkinter
 - pandas
