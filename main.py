@@ -3,8 +3,8 @@ from load_data import Dataset
 from tkinter import DoubleVar, ttk
 from RangeSlider.RangeSlider import RangeSliderH 
 from AHP_matrix2 import *
-from expert_page import *
-from weights_page import *
+from expert_dialog import *
+from weights_dialog import *
 
 def calculate(window, hotels):
     # we are calculating!

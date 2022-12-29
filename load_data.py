@@ -1,7 +1,7 @@
 import numpy 
 from numpy import recfromtxt
 import csv
-from enum_1 import Criteria
+from enum_criteria import Criteria
 from copy import deepcopy
 
 class Dataset():

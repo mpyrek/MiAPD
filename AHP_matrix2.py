@@ -1,6 +1,6 @@
 import random
 from load_data import Dataset
-from enum_1 import Criteria
+from enum_criteria import Criteria
 from numpy import matmul , argmax
 import pandas as pd
 
