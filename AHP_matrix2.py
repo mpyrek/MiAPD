@@ -45,9 +45,6 @@ def choose_3_hotels(data, criterion, min_lim, max_lim):
     
     if n > 3: ids = random.sample(ids, 3)
 
-    # prep = [d for d in data.rows if int(d[0]) in ids]
-    # data.chosen_hotels = deepcopy(prep)
-
     for idx in ids:
         hotels.append(data.get_dicts_array()[idx])
     
