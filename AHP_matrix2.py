@@ -33,7 +33,7 @@ def choose_3_hotels(data, criterion, min_lim, max_lim):
     hotels = []
     ids = []
 
-    filtered_data =  [d for d in data.rows if int(d[criterion]) >= min_lim and int(d[criterion]) <= max_lim]
+    filtered_data =  [d for d in data.rows if d[criterion] != "unknown" and int(d[criterion]) >= min_lim and int(d[criterion]) <= max_lim]
     ids = [int(f[0]) for f in filtered_data]
     n = len(ids)
 
