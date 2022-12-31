@@ -45,6 +45,18 @@ Here is a simple video of the app in action:
 </p>
 
 
+### Method
+
+Hotel selection is based on AHP method described in the book by Konrad Kułakowski's entitled "Understanding the anaytic hierachy process."
+
+### Tests
+
+To check correctness of the method manual tests have been done.
+
+### Capabilities Application development
+
+To develop app we can extend experts modules and clarify their task. To make the application easier to use, user manuals could be added.
+
 ### Authors
 
 - [Dominika Bocheńczyk](https://github.com/domkvv)
