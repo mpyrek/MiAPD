@@ -47,7 +47,7 @@ Here is a simple video of the app in action:
 
 ### Method
 
-Hotel selection is based on AHP method described in the book by Konrad Kułakowski's entitled "Understanding the anaytic hierachy process."
+Hotel selection is based on AHP method described in the book by Konrad Kułakowski's entitled "Understanding the analytic hierachy process."
 
 ### Tests
 
